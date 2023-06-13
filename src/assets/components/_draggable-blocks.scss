@@ -1,0 +1,32 @@
+.draggable-blocks-main {
+  z-index: 5;
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 0);
+  height: 10vh;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  background-color: $color-white;
+  border-top-right-radius: $border-rnd-lg;
+  border-top-left-radius: $border-rnd-lg;
+
+  .draggable-block {
+    height: 90%;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: grab;
+    background-color: $color-white;
+    margin: 5px 0;
+
+    &:hover {
+      background-color: $color-white-darker;
+    }
+  }
+}

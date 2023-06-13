@@ -1,0 +1,58 @@
+.image-common {
+  position: relative;
+  height: 100%;
+  background-color: $color-white;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-small {
+  @extend .image-common;
+  aspect-ratio: .75 / 1;
+}
+
+.image-medium {
+  @extend .image-common;
+  aspect-ratio: 1.5 / 1;
+}
+
+.image-large {
+  @extend .image-common;
+  aspect-ratio: 2.5/1;
+}
+
+.image-full {
+  @extend .image-common;
+  width: 100%;
+}
+
+.image-dropzone {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: $color-grey-light;
+  font-size: 20px;
+  box-sizing: border-box;
+  border: 2px dashed $color-grey-light;
+  border-radius: 15px;
+
+  &.is-image-hovering {
+    color: $color-grey;
+    border: 2px dashed $color-grey;
+  }
+
+  &.image-dropped {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

@@ -1,0 +1,33 @@
+.text-common {
+  position: relative;
+  height: 100%;
+  background-color: $color-white;
+  display: flex;
+  flex-direction: column;
+}
+
+.text-small {
+  @extend .text-common;
+  aspect-ratio: .75 / 1;
+}
+
+.text-medium {
+  @extend .text-common;
+  aspect-ratio: 1.5 / 1;
+}
+
+.text-large {
+  @extend .text-common;
+  aspect-ratio: 2.5/1;
+}
+
+.text-full {
+  @extend .text-common;
+  width: 100%;
+}
+
+.tinymce-wrapper {
+  //background-color: red;
+  height: 100%;
+  width: 100%;
+}

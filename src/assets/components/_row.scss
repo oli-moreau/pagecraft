@@ -1,0 +1,15 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  //flex-wrap: wrap;
+  //justify-content: space-evenly;
+  gap: 2vw;
+  height: 50vh;
+  position: relative;
+}
+
+//.row-border {
+//  //height: 100%;
+//  //width: 100%;
+//  background-color: red;
+//}

@@ -1,0 +1,95 @@
+.image-toolbar {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 4;
+
+  .toolbar-left {
+    display: flex;
+    justify-content: flex-start;
+
+    .btn-menu {
+      width: 30px;
+      height: 30px;
+      align-items: center;
+      text-align: center;
+      border-radius: $border-rnd-full;
+      background-color: $color-white-darker;
+      font-weight: bolder;
+      margin-left: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-white-darkest;
+      }
+    }
+
+    .btn-tool {
+      height: 30px;
+      font-weight: bolder;
+      margin-right: 10px;
+      cursor: pointer;
+      padding: 0 10px;
+
+      &:hover {
+        border-radius: $border-rnd-sm;
+        background-color: $color-white-darkest;
+      }
+    }
+  }
+
+  .toolbar-middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .toolbar-right {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn-remove {
+      width: 30px;
+      height: 30px;
+      border-radius: $border-rnd-full;
+      background-color: $color-white-darker;
+      font-weight: bolder;
+      margin-right: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-white-darkest;
+      }
+    }
+  }
+
+  .toolbar-options {
+    position: absolute;
+    height: 20vh;
+    width: 150px;
+    bottom: calc(-20vh - 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    background-color: $color-white;
+    z-index: 4;
+
+    .toolbar-option {
+      width: 100%;
+      height: 100%;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $color-white-darker;
+        border-radius: $border-rnd-sm;
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+<template>
+  <main>
+    <NavBar :show-editor="showEditor" @toggle-editor="toggleEditor"/>
+    <DraggableBlocks v-if="showEditor"/>
+    <section class="main-content">
+      <component
+          v-for="block in droppedBlocks"
+          :key="block.id"
+          :is="blockMap[block.type].component"
+          :blockId="block.id"
+          :showEditor="showEditor"
+          :size="block.size"
+          @remove-block="removeBlockHandler(block.id)"
+      ></component>
+<!--      v-bind="blockMap[block.type].props"-->
+      <DropZone v-if="showEditor" @droppedBlock="droppedBlockHandler"/>
+    </section>
+<!--    <DropZone v-if="showEditor" @droppedBlock="droppedBlockHandler"/>-->
+  </main>
+</template>
+
+<script>
+import NavBar from "@/components/NavBar.vue";
+import DraggableBlocks from "@/components/DraggableBlocks.vue";
+import DropZone from "@/components/DropZone.vue";
+import Image from "@/components/blocks/images/Image.vue";
+
+export default {
+  components: {
+    NavBar,
+    DraggableBlocks,
+    DropZone,
+    Image,
+  },
+  data() {
+    return {
+      showEditor: true,
+      droppedBlocks: [],
+    }
+  },
+  mounted() {
+  },
+  methods: {
+    toggleEditor() {
+      this.showEditor = !this.showEditor
+    },
+    droppedBlockHandler(droppedBlock) {
+      console.log(droppedBlock)
+      this.droppedBlocks.push(droppedBlock)
+    },
+    removeBlockHandler(id) {
+      const index = this.droppedBlocks.findIndex(block => block.id === id);
+      if (index !== -1) {
+        this.droppedBlocks.splice(index, 1);
+      }
+    },
+
+  },
+  computed: {
+    blockMap() {
+      return {
+        'image': {
+          component: Image,
+          // props: (blockId, showEditor) => ({
+          //   showEditor: showEditor,
+          //   blockId: blockId,
+          // }),
+        },
+      };
+    },
+  },
+}
+</script>
