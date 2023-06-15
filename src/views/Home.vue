@@ -6,9 +6,16 @@
       <div
           class="row"
           :class="{'row-border': showEditor}"
+          :style="{
+            'height': `${rowHeights[rowIndex]}vh`,
+          }"
           v-for="(row, rowIndex) in pageRows"
           :key="rowIndex"
       >
+        <div class="row-height-bar" v-if="showEditor">
+          <span>Height</span>
+          <input type="text" v-model="rowHeights[rowIndex]">
+        </div>
         <component
             v-for="block in row"
             :key="block.id"
@@ -19,6 +26,9 @@
             @remove-block="removeBlockHandler(rowIndex, block.id)"
         ></component>
         <DropZone
+            :style="{
+              'height': `${rowHeights[rowIndex]}vh`,
+            }"
             v-if="showEditor && row.length !== 4"
             :blockId="blockId"
             @droppedBlock="droppedInRow($event, rowIndex)"
@@ -27,6 +37,7 @@
 <!--      v-bind="blockMap[block.type].props"-->
     </section>
     <DropZone
+        style="height: 50vh"
         v-if="showEditor"
         :blockId="blockId"
         @droppedBlock="droppedInNewRow"
@@ -54,6 +65,7 @@ export default {
       showEditor: true,
       pageRows: [],
       blockId: 1,
+      rowHeights: [50],
     }
   },
   mounted() {
@@ -75,6 +87,7 @@ export default {
     droppedInNewRow(droppedBlock) {
       this.blockId += 1
       this.pageRows.push([droppedBlock])
+      this.rowHeights.push(50)
     },
     removeBlockHandler(row, elementId) {
       const index = this.pageRows[row].findIndex(el => el.id == elementId)
