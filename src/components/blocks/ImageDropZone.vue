@@ -3,6 +3,7 @@
        :class="{
             'image-dropped': imageDropped,
             'is-image-hovering': isImageHovering,
+            'corner-round' : cornerRound,
          }"
        @drop="handleDrop"
        @dragover="handleDragOver"
@@ -15,6 +16,12 @@
 
 <script>
 export default {
+  props: {
+    cornerRound: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       file: null,

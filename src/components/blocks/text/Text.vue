@@ -46,6 +46,7 @@ export default {
         size: "",
         border: "corner-round",
         shadow: "drop-shadow",
+        backgroundColor: "bg-white",
       },
       blockContent: '',
       editBlockContent: false,
@@ -63,7 +64,14 @@ export default {
       this.$emit('editBlock');
     },
     onOptionSelected(selectedOption) {
-        this.textClasses.size = selectedOption
+      switch (selectedOption) {
+        case 'drop-shadow': this.textClasses.shadow = selectedOption; break
+        case 'drop-shadow-off': this.textClasses.shadow = ''; break
+        case 'corner-round': this.textClasses.border = selectedOption; break
+        case 'corner-round-off': this.textClasses.border = ''; break
+        case 'bg-white-true' : this.textClasses.backgroundColor = selectedOption; break
+        default: this.textClasses.size = selectedOption
+      }
     },
     updateBlockContent(newValue) {
       this.blockContent = newValue

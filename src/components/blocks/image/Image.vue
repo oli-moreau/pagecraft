@@ -6,7 +6,7 @@
         @option-selected="onOptionSelected"
         v-if="showEditor"
     />
-    <ImageDropZone />
+    <ImageDropZone :corner-round="imageClasses.border == 'corner-round'"/>
   </div>
 </template>
 
@@ -36,6 +36,7 @@ export default {
         size: "",
         border: "corner-round",
         shadow: "drop-shadow",
+        backgroundColor: "bg-white",
       },
       blockContent: '',
       editBlockContent: false,
@@ -53,7 +54,14 @@ export default {
       this.$emit('editBlock');
     },
     onOptionSelected(selectedOption) {
-        this.imageClasses.size = selectedOption
+      switch (selectedOption) {
+        case 'drop-shadow': this.imageClasses.shadow = selectedOption; break
+        case 'drop-shadow-off': this.imageClasses.shadow = ''; break
+        case 'corner-round': this.imageClasses.border = selectedOption; break
+        case 'corner-round-off': this.imageClasses.border = ''; break
+        case 'bg-white-true' : this.imageClasses.backgroundColor = selectedOption; break
+        default: this.imageClasses.size = selectedOption
+      }
     },
   },
   computed: {},

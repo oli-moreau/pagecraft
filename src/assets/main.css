@@ -41,6 +41,14 @@ body {
   font-size: 1rem;
 }
 
+.bg-white {
+  background-color: #eef3f4;
+}
+
+.bg-white-true {
+  background-color: white;
+}
+
 .link-white {
   cursor: pointer;
   text-decoration: none;
@@ -161,7 +169,6 @@ body {
 .image-common, .image-full, .image-large, .image-medium, .image-small {
   position: relative;
   height: 100%;
-  background-color: #eef3f4;
   display: flex;
   flex-direction: column;
 }
@@ -193,7 +200,6 @@ body {
   font-size: 20px;
   box-sizing: border-box;
   border: 2px dashed #d9d9d9;
-  border-radius: 15px;
 }
 .image-dropzone.is-image-hovering {
   color: #aaa;
@@ -273,9 +279,9 @@ body {
 }
 .image-toolbar .toolbar-options {
   position: absolute;
-  height: 20vh;
+  height: 30vh;
   width: 150px;
-  bottom: calc(-20vh - 20px);
+  bottom: calc(-30vh - 20px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -297,7 +303,6 @@ body {
 .text-common, .text-full, .text-large, .text-medium, .text-small {
   position: relative;
   height: 100%;
-  background-color: #eef3f4;
   display: flex;
   flex-direction: column;
 }

@@ -1,7 +1,6 @@
 .image-common {
   position: relative;
   height: 100%;
-  background-color: $color-white;
   display: flex;
   flex-direction: column;
 }
@@ -37,7 +36,7 @@
   font-size: 20px;
   box-sizing: border-box;
   border: 2px dashed $color-grey-light;
-  border-radius: 15px;
+  //border-radius: 15px;
 
   &.is-image-hovering {
     color: $color-grey;
