@@ -18,7 +18,7 @@
 export default {
   props: {
     cornerRound: {
-      type: String,
+      type: Boolean,
       required: true
     }
   },

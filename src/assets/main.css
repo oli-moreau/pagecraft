@@ -41,14 +41,6 @@ body {
   font-size: 1rem;
 }
 
-.bg-white {
-  background-color: #eef3f4;
-}
-
-.bg-white-true {
-  background-color: white;
-}
-
 .link-white {
   cursor: pointer;
   text-decoration: none;

@@ -22,6 +22,11 @@
       >
         {{ option.label }}
       </button>
+      <div>
+        <label for="background-input">Background color:</label>
+        <input id="background-input" type="text" v-model="backgroundColor" />
+        <button @click="imageBackgroundColor">Apply</button>
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +37,7 @@ export default {
   data() {
     return {
       showMenu: false,
+      backgroundColor: '#ffffff',
       options: [
         { label: 'Small image', value: 'image-small' },
         { label: 'Medium image', value: 'image-medium' },
@@ -41,7 +47,6 @@ export default {
         { label: 'Drop shadow off', value: 'drop-shadow-off'},
         { label: 'Round corner on', value: 'corner-round'},
         { label: 'Round corner off', value: 'corner-round-off'},
-        { label: 'Background white', value: 'bg-white-true'},
       ],
     }
   },
@@ -58,6 +63,12 @@ export default {
     optionSelected(selectedOption) {
       this.$emit('optionSelected', selectedOption.value)
       this.showMenu = false
+    },
+    imageBackgroundColor() {
+      if (this.backgroundColor) {
+        this.$emit('imageBackgroundColor', this.backgroundColor)
+      }
+      this.showMenu = false;
     },
   },
   computed: {},

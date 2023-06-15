@@ -1,9 +1,15 @@
 <template>
-  <div :class="Object.values(imageClasses)">
+  <div
+      :class="Object.values(imageClasses)"
+      :style="{
+        'background-color': imageBackgroundColor,
+      }"
+  >
     <Toolbar
         @edit-block="onEditBlock"
         @remove-block="onRemoveBlock"
         @option-selected="onOptionSelected"
+        @image-background-color="imageBackgroundColorHandler"
         v-if="showEditor"
     />
     <ImageDropZone :corner-round="imageClasses.border == 'corner-round'"/>
@@ -32,15 +38,15 @@ export default {
   },
   data() {
     return {
+      blockContent: '',
+      editBlockContent: false,
+      insertImage: false,
+      imageBackgroundColor: 'white',
       imageClasses: {
         size: "",
         border: "corner-round",
         shadow: "drop-shadow",
-        backgroundColor: "bg-white",
       },
-      blockContent: '',
-      editBlockContent: false,
-      insertImage: false,
     }
   },
   mounted() {
@@ -62,6 +68,9 @@ export default {
         case 'bg-white-true' : this.imageClasses.backgroundColor = selectedOption; break
         default: this.imageClasses.size = selectedOption
       }
+    },
+    imageBackgroundColorHandler(event) {
+      this.imageBackgroundColor = event
     },
   },
   computed: {},
