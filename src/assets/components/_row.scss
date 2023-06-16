@@ -4,7 +4,6 @@
   //flex-wrap: wrap;
   //justify-content: space-evenly;
   gap: 2vw;
-  //height: 50vh;
   position: relative;
 }
 
@@ -16,17 +15,52 @@
 
 .row-height-bar {
   position: absolute;
-  left: calc(-5vw);
+  left: calc(-4vw);
   height: 100%;
-  width: 5vw;
+  width: 3vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-top: 2px dashed $color-grey-light;
+  border-bottom: 2px dashed $color-grey-light;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 55%;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 2px dashed $color-grey-light;
+    z-index: 2;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 55%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 2px dashed $color-grey-light;
+  }
 
   input {
     width: 100%;
+    aspect-ratio: 1/1;
     text-align: center;
+    font-size: 2rem;
     border: none;
+    color: $color-grey-light;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::selection {
+      background-color: $color-grey;
+      border-radius: 15px;
+    }
   }
 }

@@ -13,8 +13,12 @@
           :key="rowIndex"
       >
         <div class="row-height-bar" v-if="showEditor">
-          <span>Height</span>
-          <input type="text" v-model="rowHeights[rowIndex]">
+          <input
+              type="text"
+              :value="rowHeights[rowIndex]"
+              @keydown="numbersOnlyInput"
+              @keydown.enter.prevent="updateRowHeight(rowIndex, $event.target.value)"
+          >
         </div>
         <component
             v-for="block in row"
@@ -72,7 +76,6 @@ export default {
   },
   methods: {
     toggleEditor() {
-      console.log(this.pageRows)
       this.showEditor = !this.showEditor
     },
     droppedInRow(droppedBlock, rowIndex) {
@@ -89,23 +92,32 @@ export default {
       this.pageRows.push([droppedBlock])
       this.rowHeights.push(50)
     },
-    removeBlockHandler(row, elementId) {
-      const index = this.pageRows[row].findIndex(el => el.id == elementId)
+    removeBlockHandler(row, blockId) {
+      const index = this.pageRows[row].findIndex(block => block.id == blockId)
       if (index !== -1) {
         this.pageRows[row].splice(index, 1);
       }
       if (this.pageRows[row].length === 0) {
         this.pageRows.splice(row, 1);
+        this.rowHeights.splice(row, 1)
+        // console.log(row)
       }
-    },
-    onRemoveRow() {
-      this.$emit('removeRow');
-    },
-    onEditRow() {
-      this.$emit('editRow');
     },
     onOptionSelected(selectedOption) {
       // this.imageClasses.size = selectedOption
+    },
+    updateRowHeight(rowIndex, value) {
+      this.rowHeights[rowIndex] = value;
+      event.target.blur()
+    },
+    numbersOnlyInput() {
+      const keyCode = event.keyCode || event.which
+      const keyValue = String.fromCharCode(keyCode)
+      const validInputRegex = /^[0-9\b\t\n\r\x1B\x7F\x9A\x9D]$/
+
+      if (!validInputRegex.test(keyValue)) {
+        event.preventDefault();
+      }
     },
   },
   computed: {
@@ -123,6 +135,11 @@ export default {
         }
       };
     },
+    // getRowHeight() {
+    //   return (rowIndex) => {
+    //     return this.rowHeights[rowIndex];
+    //   };
+    // },
   },
 }
 </script>
