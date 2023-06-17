@@ -82,7 +82,16 @@ export default {
           : this.imageClasses[key] = ''
     },
     imageBackgroundColorHandler(event) {
-      this.imageBackgroundColor = event
+      event[0] === '#'
+        ? this.imageBackgroundColor = event
+        : this.imageBackgroundColor = '#' + event
+
+      // if (event[0] === '#') {
+      //
+      // } else {
+      //
+      // }
+      console.log(this.imageBackgroundColor)
     },
     imageOpacityHandler(event) {
       this.imageOpacity = Number(event)

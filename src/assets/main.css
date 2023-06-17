@@ -366,6 +366,9 @@ body {
   width: 100%;
   margin-top: 5%;
 }
+.image-toolbar .toolbar-options .image-opacity-slider:hover {
+  cursor: pointer;
+}
 
 .text-common, .text-full, .text-large, .text-medium, .text-small {
   position: relative;
