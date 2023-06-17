@@ -68,3 +68,24 @@
     }
   }
 }
+
+.row-gap {
+  height: 5vh;
+  position: relative;
+
+  .row-gap-height-bar {
+    @extend .row-height-bar;
+
+    &:before {
+      top: 80%;
+    }
+
+    &:after {
+      bottom: 80%;
+    }
+
+    input {
+      font-size: 1.5rem;
+    }
+  }
+}

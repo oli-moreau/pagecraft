@@ -1,9 +1,7 @@
 <template>
   <div
       :class="Object.values(imageClasses)"
-      :style="{
-        'background-color': imageBackgroundColor,
-      }"
+      :style="{'background-color': imageBackgroundColor}"
   >
     <Toolbar
         @edit-block="onEditBlock"
@@ -12,7 +10,7 @@
         @image-background-color="imageBackgroundColorHandler"
         v-if="showEditor"
     />
-    <ImageDropZone :corner-round="imageClasses.border == 'corner-round'"/>
+    <ImageDropZone :corner-round="imageClasses.border === 'corner-round'"/>
   </div>
 </template>
 
@@ -61,10 +59,15 @@ export default {
     },
     onOptionSelected(selectedOption) {
       switch (selectedOption) {
-        case 'drop-shadow': (this.imageClasses.shadow == '') ? this.imageClasses.shadow = selectedOption : this.imageClasses.shadow = ''; break
-        case 'corner-round': (this.imageClasses.border == '') ? this.imageClasses.border = selectedOption : this.imageClasses.border = ''; break
+        case 'drop-shadow': this.modifyImageClass('shadow', selectedOption); break
+        case 'corner-round': this.modifyImageClass('border', selectedOption); break
         default: this.imageClasses.size = selectedOption
       }
+    },
+    modifyImageClass(key, value) {
+      this.imageClasses[key] === ''
+          ? this.imageClasses[key]= value
+          : this.imageClasses[key] = ''
     },
     imageBackgroundColorHandler(event) {
       this.imageBackgroundColor = event

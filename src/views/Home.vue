@@ -3,42 +3,50 @@
     <NavBar :show-editor="showEditor" @toggle-editor="toggleEditor"/>
     <DraggableBlocks v-if="showEditor"/>
     <section class="main-content">
-      <div
-          class="row"
-          :class="{'row-border': showEditor}"
-          :style="{
-            'height': `${rowHeights[rowIndex]}vh`,
-          }"
-          v-for="(row, rowIndex) in pageRows"
-          :key="rowIndex"
-      >
-        <div class="row-height-bar" v-if="showEditor">
-          <input
-              type="text"
-              :value="rowHeights[rowIndex]"
-              @keydown="numbersOnlyInput"
-              @keydown.enter.prevent="updateRowHeight(rowIndex, $event.target.value)"
-          >
-        </div>
-        <component
-            v-for="block in row"
-            :key="block.id"
-            :is="blockMap[block.type].component"
-            :blockId="blockId"
-            :showEditor="showEditor"
-            :size="block.size"
-            @remove-block="removeBlockHandler(rowIndex, block.id)"
-        ></component>
-        <DropZone
-            :style="{
+      <template v-for="(row, rowIndex) in pageRows" :key="rowIndex">
+        <div
+            class="row"
+            :class="{'row-border': showEditor}"
+            :style="{'height': `${rowHeights[rowIndex]}vh`}"
+        >
+          <div class="row-height-bar" v-if="showEditor">
+            <input
+                type="text"
+                :value="rowHeights[rowIndex]"
+                @keydown="numbersOnlyInput"
+                @keydown.enter.prevent="updateRowHeight(rowIndex, $event.target.value)"
+            >
+          </div>
+          <component
+              v-for="block in row"
+              :key="block.id"
+              :is="blockMap[block.type].component"
+              :blockId="blockId"
+              :showEditor="showEditor"
+              :size="block.size"
+              @remove-block="removeBlockHandler(rowIndex, block.id)"
+          ></component>
+          <DropZone
+              :style="{
               'height': `${rowHeights[rowIndex]}vh`,
             }"
-            v-if="showEditor && row.length !== 4"
-            :blockId="blockId"
-            @droppedBlock="droppedInRow($event, rowIndex)"
-        />
-      </div>
-<!--      v-bind="blockMap[block.type].props"-->
+              v-if="showEditor && row.length !== 4"
+              :blockId="blockId"
+              @droppedBlock="droppedInRow($event, rowIndex)"
+          />
+        </div>
+        <div class="row-gap" :style="{'height': `${rowGapHeights[rowIndex]}vh`}">
+          <div class="row-gap-height-bar" v-if="showEditor">
+            <input
+                type="text"
+                :value="rowGapHeights[rowIndex]"
+                @keydown="numbersOnlyInput"
+                @keydown.enter.prevent="updateRowGapHeight(rowIndex, $event.target.value)"
+            >
+          </div>
+        </div>
+      </template>
+      <!--      v-bind="blockMap[block.type].props"-->
     </section>
     <DropZone
         style="height: 50vh"
@@ -70,6 +78,7 @@ export default {
       blockId: 1,
       pageRows: [],
       rowHeights: [50],
+      rowGapHeights: [5],
     }
   },
   mounted() {
@@ -91,6 +100,7 @@ export default {
       this.blockId += 1
       this.pageRows.push([droppedBlock])
       this.rowHeights.push(50)
+      this.rowGapHeights.push(5)
     },
     removeBlockHandler(row, blockId) {
       const index = this.pageRows[row].findIndex(block => block.id == blockId)
@@ -100,7 +110,7 @@ export default {
       if (this.pageRows[row].length === 0) {
         this.pageRows.splice(row, 1);
         this.rowHeights.splice(row, 1)
-        // console.log(row)
+        this.rowGapHeights.splice(row, 1)
       }
     },
     onOptionSelected(selectedOption) {
@@ -108,6 +118,10 @@ export default {
     },
     updateRowHeight(rowIndex, value) {
       this.rowHeights[rowIndex] = value;
+      event.target.blur()
+    },
+    updateRowGapHeight(rowIndex, value) {
+      this.rowGapHeights[rowIndex] = value;
       event.target.blur()
     },
     numbersOnlyInput() {
