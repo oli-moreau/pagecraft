@@ -22,19 +22,29 @@
       >
         {{ option.label }}
       </button>
-      <input class="background-color-input" type="text" v-model="backgroundColor" @input="imageBackgroundColor"/>
-      <input class="image-opacity-slider" type="range" min="0" max="100" v-model="opacity" @input="imageOpacity">
+      <input class="background-color-input" type="text" v-model="backgroundColor" @input="backgroundColorHandler"/>
+      <input class="image-opacity-slider" type="range" min="0" max="100" v-model="opacity" @input="opacityHandler">
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    imageBackgroundColor: {
+      type: String,
+      required: true
+    },
+    imageOpacity: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
+      backgroundColor : null,
+      opacity: null,
       showMenu: false,
-      backgroundColor: '#ffffff',
-      opacity: 100,
       options: [
         { label: 'Small image', value: 'image-small' },
         { label: 'Medium image', value: 'image-medium' },
@@ -46,6 +56,8 @@ export default {
     }
   },
   mounted() {
+    this.backgroundColor = this.imageBackgroundColor
+    this.opacity = this.imageOpacity
   },
   methods: {
     removeBlock() {
@@ -59,11 +71,11 @@ export default {
       this.$emit('optionSelected', selectedOption.value)
       this.showMenu = false
     },
-    imageBackgroundColor() {
-        this.$emit('imageBackgroundColor', this.backgroundColor)
+    backgroundColorHandler() {
+        this.$emit('backgroundColor', this.backgroundColor)
     },
-    imageOpacity() {
-      this.$emit('imageOpacity', this.opacity)
+    opacityHandler() {
+      this.$emit('opacity', this.opacity)
     },
   },
   computed: {},
