@@ -362,6 +362,10 @@ body {
   border-radius: 5px;
   text-align: center;
 }
+.image-toolbar .toolbar-options .image-opacity-slider {
+  width: 100%;
+  margin-top: 5%;
+}
 
 .text-common, .text-full, .text-large, .text-medium, .text-small {
   position: relative;

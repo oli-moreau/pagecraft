@@ -1,16 +1,24 @@
 <template>
   <div
       :class="Object.values(imageClasses)"
-      :style="{'background-color': imageBackgroundColor}"
+      :style="{
+          'background-color': imageBackgroundColor,
+        }"
   >
     <Toolbar
         @edit-block="onEditBlock"
         @remove-block="onRemoveBlock"
         @option-selected="onOptionSelected"
         @image-background-color="imageBackgroundColorHandler"
+        @image-opacity="imageOpacityHandler"
         v-if="showEditor"
     />
-    <ImageDropZone :corner-round="imageClasses.border === 'corner-round'"/>
+    <ImageDropZone
+        :style="{
+          'opacity' : imageOpacity,
+        }"
+        :corner-round="imageClasses.border === 'corner-round'"
+    />
   </div>
 </template>
 
@@ -40,6 +48,7 @@ export default {
       editBlockContent: false,
       insertImage: false,
       imageBackgroundColor: 'white',
+      imageOpacity: 1,
       imageClasses: {
         size: "",
         border: "corner-round",
@@ -71,6 +80,9 @@ export default {
     },
     imageBackgroundColorHandler(event) {
       this.imageBackgroundColor = event
+    },
+    imageOpacityHandler(event) {
+      this.imageOpacity = (event / 100)
     },
   },
   computed: {},

@@ -100,8 +100,11 @@
       border: 1px solid $color-white-darkest;
       border-radius: $border-rnd-sm;
       text-align: center;
-      //background-color: #354e57;
     }
 
+    .image-opacity-slider {
+      width: 100%;
+      margin-top: 5%;
+    }
   }
 }

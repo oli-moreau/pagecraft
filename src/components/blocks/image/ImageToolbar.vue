@@ -23,6 +23,7 @@
         {{ option.label }}
       </button>
       <input class="background-color-input" type="text" v-model="backgroundColor" @input="imageBackgroundColor"/>
+      <input class="image-opacity-slider" type="range" min="0" max="100" v-model="opacity" @input="imageOpacity">
     </div>
   </div>
 </template>
@@ -33,6 +34,7 @@ export default {
     return {
       showMenu: false,
       backgroundColor: '#ffffff',
+      opacity: 100,
       options: [
         { label: 'Small image', value: 'image-small' },
         { label: 'Medium image', value: 'image-medium' },
@@ -59,6 +61,9 @@ export default {
     },
     imageBackgroundColor() {
         this.$emit('imageBackgroundColor', this.backgroundColor)
+    },
+    imageOpacity() {
+      this.$emit('imageOpacity', this.opacity)
     },
   },
   computed: {},
