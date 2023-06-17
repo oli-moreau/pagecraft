@@ -43,10 +43,8 @@ export default {
         { label: 'Medium image', value: 'image-medium' },
         { label: 'Large image', value: 'image-large' },
         { label: 'Full image', value: 'image-full' },
-        { label: 'Drop shadow on', value: 'drop-shadow'},
-        { label: 'Drop shadow off', value: 'drop-shadow-off'},
-        { label: 'Round corner on', value: 'corner-round'},
-        { label: 'Round corner off', value: 'corner-round-off'},
+        { label: 'Drop shadow', value: 'drop-shadow'},
+        { label: 'Round corner', value: 'corner-round'},
       ],
     }
   },
