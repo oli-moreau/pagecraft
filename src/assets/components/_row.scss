@@ -54,13 +54,17 @@
     border: none;
     color: $color-grey-light;
 
+    &:hover {
+      background-color: $color-white;
+      border-radius: $border-rnd-sm;
+    }
+
     &:focus {
       outline: none;
     }
 
     &::selection {
       background-color: $color-grey;
-      border-radius: 15px;
     }
   }
 }

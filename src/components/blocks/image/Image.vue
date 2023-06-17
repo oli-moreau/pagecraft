@@ -63,7 +63,6 @@ export default {
       switch (selectedOption) {
         case 'drop-shadow': (this.imageClasses.shadow == '') ? this.imageClasses.shadow = selectedOption : this.imageClasses.shadow = ''; break
         case 'corner-round': (this.imageClasses.border == '') ? this.imageClasses.border = selectedOption : this.imageClasses.border = ''; break
-        case 'bg-white-true' : this.imageClasses.backgroundColor = selectedOption; break
         default: this.imageClasses.size = selectedOption
       }
     },

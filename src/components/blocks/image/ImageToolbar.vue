@@ -22,11 +22,7 @@
       >
         {{ option.label }}
       </button>
-      <div>
-        <label for="background-input">Background color:</label>
-        <input id="background-input" type="text" v-model="backgroundColor" />
-        <button @click="imageBackgroundColor">Apply</button>
-      </div>
+      <input class="background-color-input" type="text" v-model="backgroundColor" @input="imageBackgroundColor"/>
     </div>
   </div>
 </template>
@@ -63,10 +59,7 @@ export default {
       this.showMenu = false
     },
     imageBackgroundColor() {
-      if (this.backgroundColor) {
         this.$emit('imageBackgroundColor', this.backgroundColor)
-      }
-      this.showMenu = false;
     },
   },
   computed: {},

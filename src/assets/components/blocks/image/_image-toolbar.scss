@@ -78,7 +78,7 @@
     align-items: center;
     justify-content: space-evenly;
     padding: 10px;
-    background-color: $color-white;
+    background-color: $color-white-true;
     z-index: 4;
 
     .toolbar-option {
@@ -87,9 +87,21 @@
 
       &:hover {
         cursor: pointer;
-        background-color: $color-white-darker;
+        background-color: $color-white;
         border-radius: $border-rnd-sm;
       }
     }
+
+    .background-color-input {
+      width: 75%;
+      height: 80%;
+      margin-top: 5%;
+      font-size: 16px;
+      border: 1px solid $color-white-darkest;
+      border-radius: $border-rnd-sm;
+      text-align: center;
+      //background-color: #354e57;
+    }
+
   }
 }

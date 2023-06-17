@@ -7,7 +7,6 @@
       <span>{{ block.name }}</span>
     </div>
   </div>
-
 </template>
 
 <script>

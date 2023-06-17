@@ -67,8 +67,8 @@ export default {
   data() {
     return {
       showEditor: true,
-      pageRows: [],
       blockId: 1,
+      pageRows: [],
       rowHeights: [50],
     }
   },

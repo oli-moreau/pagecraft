@@ -195,12 +195,15 @@ body {
   border: none;
   color: #d9d9d9;
 }
+.row-height-bar input:hover {
+  background-color: #eef3f4;
+  border-radius: 5px;
+}
 .row-height-bar input:focus {
   outline: none;
 }
 .row-height-bar input::selection {
   background-color: #aaa;
-  border-radius: 15px;
 }
 
 .image-common, .image-full, .image-large, .image-medium, .image-small {
@@ -324,7 +327,7 @@ body {
   align-items: center;
   justify-content: space-evenly;
   padding: 10px;
-  background-color: #eef3f4;
+  background-color: #fff;
   z-index: 4;
 }
 .image-toolbar .toolbar-options .toolbar-option {
@@ -333,8 +336,17 @@ body {
 }
 .image-toolbar .toolbar-options .toolbar-option:hover {
   cursor: pointer;
-  background-color: #e3ebec;
+  background-color: #eef3f4;
   border-radius: 5px;
+}
+.image-toolbar .toolbar-options .background-color-input {
+  width: 75%;
+  height: 80%;
+  margin-top: 5%;
+  font-size: 16px;
+  border: 1px solid #d7e0e1;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .text-common, .text-full, .text-large, .text-medium, .text-small {
