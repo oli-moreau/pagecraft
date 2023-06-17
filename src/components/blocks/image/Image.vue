@@ -4,6 +4,9 @@
       :style="{
           'background-color': imageBackgroundColor,
         }"
+      draggable="true"
+      @dragstart="blockImageDragStart"
+      @dragend="blockImageDragStop"
   >
     <Toolbar
         :image-background-color="imageBackgroundColor"
@@ -48,6 +51,7 @@ export default {
     return {
       blockContent: '',
       editBlockContent: false,
+      isBlockImageDragged: false,
       insertImage: false,
       imageBackgroundColor: '#ffffff',
       imageOpacity: 100,
@@ -90,6 +94,15 @@ export default {
       this.imageOpacity = Number(event)
       this.imageOpacityCalculated = (this.imageOpacity / 100)
     },
+    blockImageDragStart(event) {
+      console.log(this.blockId)
+      this.isBlockImageDragged = true
+      // console.log(event.dataTransfer(''))
+    },
+    blockImageDragStop(event) {
+      this.isBlockImageDragged = false
+      console.log(event)
+    }
   },
   computed: {},
 }

@@ -21,7 +21,7 @@
               v-for="block in row"
               :key="block.id"
               :is="blockMap[block.type].component"
-              :blockId="blockId"
+              :blockId="block.id"
               :showEditor="showEditor"
               :size="block.size"
               @remove-block="removeBlockHandler(rowIndex, block.id)"
@@ -113,9 +113,6 @@ export default {
         this.rowGapHeights.splice(row, 1)
       }
     },
-    onOptionSelected(selectedOption) {
-      // this.imageClasses.size = selectedOption
-    },
     updateRowHeight(rowIndex, value) {
       this.rowHeights[rowIndex] = value;
       event.target.blur()
@@ -149,11 +146,6 @@ export default {
         }
       };
     },
-    // getRowHeight() {
-    //   return (rowIndex) => {
-    //     return this.rowHeights[rowIndex];
-    //   };
-    // },
   },
 }
 </script>
