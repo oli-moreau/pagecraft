@@ -24,6 +24,7 @@
   align-items: center;
   border-top: 2px dashed $color-grey-light;
   border-bottom: 2px dashed $color-grey-light;
+  box-sizing: border-box;
 
   &::before {
     content: "";
@@ -74,7 +75,7 @@
 
   .row-gap-height-bar {
     @extend .row-height-bar;
-    border-top: none;
+    box-sizing: border-box;
 
     &:before {
       top: 80%;

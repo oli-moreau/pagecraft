@@ -58,6 +58,16 @@
   position: relative;
   height: 100%;
 
+  &.gap-being-dragged-over {
+    box-sizing: border-box;
+    border: 2px dashed $color-grey;
+    border-radius: $border-rnd-md;
+    min-width: 5vw;
+    //padding: 0 25px;
+    //padding: 5px;
+    //background-color: red;
+  }
+
   .component-gap-width-bar {
     @extend .component-width-bar;
 

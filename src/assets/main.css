@@ -166,6 +166,7 @@ body {
   align-items: center;
   border-top: 2px dashed #d9d9d9;
   border-bottom: 2px dashed #d9d9d9;
+  box-sizing: border-box;
 }
 .row-height-bar::before, .row-gap .row-gap-height-bar::before {
   content: "";
@@ -209,7 +210,7 @@ body {
   position: relative;
 }
 .row-gap .row-gap-height-bar {
-  border-top: none;
+  box-sizing: border-box;
 }
 .row-gap .row-gap-height-bar:before {
   top: 80%;
@@ -451,6 +452,12 @@ body {
 .component-gap {
   position: relative;
   height: 100%;
+}
+.component-gap.gap-being-dragged-over {
+  box-sizing: border-box;
+  border: 2px dashed #aaa;
+  border-radius: 10px;
+  min-width: 5vw;
 }
 .component-gap .component-gap-width-bar:before {
   top: 50%;

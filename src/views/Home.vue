@@ -23,10 +23,16 @@
                   :blockId="block.id"
                   :showEditor="showEditor"
                   :size="block.size"
+                  @image-being-dragged-id="imageBeingDraggedIdHandler"
                   @remove-block="removeBlockHandler(rowIndex, block.id)"
               >
               </component>
-              <div class="component-gap" :style="{'width': `${componentGapWidth[block.id]}vh`}">
+              <div class="component-gap"
+                   :class="{'gap-being-dragged-over': isGapBeingDraggedOver[block.id]}"
+                   :style="getComponentGapStyle(block.id)"
+                    @dragover.prevent="componentGapHover(block.id)"
+                    @dragleave="componentGapHoverLeave(block.id)"
+                    @drop="testFn">
                 <div class="component-gap-width-bar" v-if="showEditor">
                   <input
                       type="text"
@@ -46,7 +52,7 @@
               @droppedBlock="droppedInRow($event, rowIndex)"
           />
         </div>
-        <div class="row-gap" :style="{'height': `${rowGapHeights[rowIndex]}vw`}">
+        <div class="row-gap" :style="{'height': `${rowGapHeights[rowIndex]}vh`}">
           <div class="row-gap-height-bar" v-if="showEditor">
             <input
                 type="text"
@@ -91,6 +97,8 @@ export default {
       rowHeights: [],
       rowGapHeights: [],
       componentGapWidth: {},
+      isGapBeingDraggedOver: {},
+      gapBeingDraggedOverId: null,
     }
   },
   mounted() {
@@ -139,7 +147,6 @@ export default {
     updateComponentGapWidth(blockId, value) {
       this.componentGapWidth[blockId] = value;
       event.target.blur()
-      console.log(this.componentGapWidth)
     },
     numbersOnlyInput() {
       const keyCode = event.keyCode || event.which
@@ -149,6 +156,39 @@ export default {
       if (!validInputRegex.test(keyValue)) {
         event.preventDefault();
       }
+    },
+    componentGapHover(blockId) {
+      this.gapBeingDraggedOverId = blockId
+      this.isGapBeingDraggedOver[blockId] = true
+    },
+    componentGapHoverLeave(blockId) {
+      this.isGapBeingDraggedOver[blockId] = false
+    },
+    imageBeingDraggedIdHandler(blockId) {
+      // console.log(this.pageRows)
+      // console.log(blockId)
+    },
+    testFn(ev) {
+      const movedBlockId = JSON.parse(ev.dataTransfer.getData('blockImageId'))
+
+      const currentPageRowsIndex = this.pageRows.findIndex(row => row.some(block => block.id === movedBlockId))
+      const currentBlockIndex = this.pageRows[currentPageRowsIndex].findIndex(block => block.id === movedBlockId)
+
+      const targetPageRowsIndex = this.pageRows.findIndex(row => row.some(block => block.id === this.gapBeingDraggedOverId))
+      const targetBlockIndex = this.pageRows[targetPageRowsIndex].findIndex(block => block.id === this.gapBeingDraggedOverId)
+
+      const currentBlock = this.pageRows[currentPageRowsIndex][currentBlockIndex]
+      const targetBlock = this.pageRows[targetPageRowsIndex][targetBlockIndex]
+
+      if (currentPageRowsIndex === targetPageRowsIndex) {
+        this.pageRows[currentPageRowsIndex].splice(currentBlockIndex, 1, targetBlock);
+        this.pageRows[targetPageRowsIndex].splice(targetBlockIndex, 1, currentBlock);
+      } else {
+        this.pageRows[currentPageRowsIndex].splice(currentBlockIndex, 1)
+        this.pageRows[targetPageRowsIndex].splice(targetBlockIndex+1, 0, currentBlock)
+      }
+
+      this.isGapBeingDraggedOver[movedBlockId] = false
     },
   },
   computed: {
@@ -165,6 +205,13 @@ export default {
           component: Text,
         }
       };
+    },
+    getComponentGapStyle() {
+      return (blockId) => {
+        return {
+          width: `${this.componentGapWidth[blockId]}vw`
+        }
+      }
     },
   },
 }

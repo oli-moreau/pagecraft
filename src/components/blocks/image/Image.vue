@@ -4,13 +4,15 @@
       :style="{
           'background-color': imageBackgroundColor,
         }"
+      :draggable="isToolbarHovered"
+      @dragstart="event => blockImageDragStart(event, blockId)"
+      @dragend="blockImageDragStop"
   >
-<!--    draggable="true"-->
-<!--    @dragstart="blockImageDragStart"-->
-<!--    @dragend="blockImageDragStop"-->
     <Toolbar
         :image-background-color="imageBackgroundColor"
         :image-opacity="imageOpacity"
+        @mouseover="isToolbarHovered = true"
+        @mouseleave="isToolbarHovered = false"
         @edit-block="onEditBlock"
         @remove-block="onRemoveBlock"
         @option-selected="onOptionSelected"
@@ -53,6 +55,7 @@ export default {
       editBlockContent: false,
       isBlockImageDragged: false,
       insertImage: false,
+      isToolbarHovered: false,
       imageBackgroundColor: '#ffffff',
       imageOpacity: 100,
       imageOpacityCalculated: null,
@@ -94,16 +97,16 @@ export default {
       this.imageOpacity = Number(event)
       this.imageOpacityCalculated = (this.imageOpacity / 100)
     },
-    blockImageDragStart(event) {
-      console.log(this.blockId)
+    blockImageDragStart(ev, blockImageId) {
       this.isBlockImageDragged = true
+      // console.log(ev)
+      ev.dataTransfer.setData('blockImageId', JSON.stringify(blockImageId));
+      // this.$emit('imageBeingDraggedId', this.blockId)
       // console.log(event.dataTransfer(''))
     },
     blockImageDragStop(event) {
       this.isBlockImageDragged = false
-      console.log(event)
-    }
+    },
   },
-  computed: {},
 }
 </script>
