@@ -152,7 +152,6 @@ body {
 .row {
   display: flex;
   flex-direction: row;
-  gap: 2vw;
   position: relative;
 }
 
@@ -191,7 +190,7 @@ body {
   width: 100%;
   aspect-ratio: 1/1;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
   border: none;
   color: #d9d9d9;
 }
@@ -207,8 +206,10 @@ body {
 }
 
 .row-gap {
-  height: 5vh;
   position: relative;
+}
+.row-gap .row-gap-height-bar {
+  border-top: none;
 }
 .row-gap .row-gap-height-bar:before {
   top: 80%;
@@ -396,6 +397,69 @@ body {
 .tinymce-wrapper {
   height: 100%;
   width: 100%;
+}
+
+.component-width-bar, .component-gap .component-gap-width-bar {
+  position: relative;
+  top: -4vh;
+  height: 3vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-left: 2px dashed #d9d9d9;
+  border-right: 2px dashed #d9d9d9;
+}
+.component-width-bar::before, .component-gap .component-gap-width-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 50%;
+  left: 80%;
+  right: 0;
+  border-bottom: 2px dashed #d9d9d9;
+  z-index: 2;
+}
+.component-width-bar::after, .component-gap .component-gap-width-bar::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 80%;
+  border-bottom: 2px dashed #d9d9d9;
+}
+.component-width-bar input, .component-gap .component-gap-width-bar input {
+  height: 100%;
+  aspect-ratio: 1/1;
+  text-align: center;
+  font-size: 2rem;
+  border: none;
+  color: #d9d9d9;
+}
+.component-width-bar input:hover, .component-gap .component-gap-width-bar input:hover {
+  background-color: #eef3f4;
+  border-radius: 5px;
+}
+.component-width-bar input:focus, .component-gap .component-gap-width-bar input:focus {
+  outline: none;
+}
+.component-width-bar input::selection, .component-gap .component-gap-width-bar input::selection {
+  background-color: #aaa;
+}
+
+.component-gap {
+  position: relative;
+  height: 100%;
+}
+.component-gap .component-gap-width-bar:before {
+  top: 50%;
+}
+.component-gap .component-gap-width-bar:after {
+  bottom: 50%;
+}
+.component-gap .component-gap-width-bar input {
+  font-size: 1.5rem;
 }
 
 .main-content {

@@ -17,15 +17,26 @@
                 @keydown.enter.prevent="updateRowHeight(rowIndex, $event.target.value)"
             >
           </div>
-          <component
-              v-for="block in row"
-              :key="block.id"
-              :is="blockMap[block.type].component"
-              :blockId="block.id"
-              :showEditor="showEditor"
-              :size="block.size"
-              @remove-block="removeBlockHandler(rowIndex, block.id)"
-          ></component>
+          <template v-for="block in row" :key="block.id">
+              <component
+                  :is="blockMap[block.type].component"
+                  :blockId="block.id"
+                  :showEditor="showEditor"
+                  :size="block.size"
+                  @remove-block="removeBlockHandler(rowIndex, block.id)"
+              >
+              </component>
+              <div class="component-gap" :style="{'width': `${componentGapWidth[block.id]}vh`}">
+                <div class="component-gap-width-bar" v-if="showEditor">
+                  <input
+                      type="text"
+                      :value="componentGapWidth[block.id]"
+                      @keydown="numbersOnlyInput"
+                      @keydown.enter.prevent="updateComponentGapWidth(block.id, $event.target.value)"
+                  >
+                </div>
+              </div>
+          </template>
           <DropZone
               :style="{
               'height': `${rowHeights[rowIndex]}vh`,
@@ -35,7 +46,7 @@
               @droppedBlock="droppedInRow($event, rowIndex)"
           />
         </div>
-        <div class="row-gap" :style="{'height': `${rowGapHeights[rowIndex]}vh`}">
+        <div class="row-gap" :style="{'height': `${rowGapHeights[rowIndex]}vw`}">
           <div class="row-gap-height-bar" v-if="showEditor">
             <input
                 type="text"
@@ -77,8 +88,9 @@ export default {
       showEditor: true,
       blockId: 1,
       pageRows: [],
-      rowHeights: [50],
-      rowGapHeights: [5],
+      rowHeights: [],
+      rowGapHeights: [],
+      componentGapWidth: {},
     }
   },
   mounted() {
@@ -92,6 +104,7 @@ export default {
       this.blockId += 1
       if (targetRow.length < 4) {
         targetRow.push(droppedBlock)
+        this.componentGapWidth[droppedBlock.id] = 5
       } else {
         this.pageRows.push([droppedBlock])
       }
@@ -101,11 +114,13 @@ export default {
       this.pageRows.push([droppedBlock])
       this.rowHeights.push(50)
       this.rowGapHeights.push(5)
+      this.componentGapWidth[droppedBlock.id] = 5
     },
     removeBlockHandler(row, blockId) {
       const index = this.pageRows[row].findIndex(block => block.id == blockId)
       if (index !== -1) {
         this.pageRows[row].splice(index, 1);
+        delete this.componentGapWidth[blockId]
       }
       if (this.pageRows[row].length === 0) {
         this.pageRows.splice(row, 1);
@@ -120,6 +135,11 @@ export default {
     updateRowGapHeight(rowIndex, value) {
       this.rowGapHeights[rowIndex] = value;
       event.target.blur()
+    },
+    updateComponentGapWidth(blockId, value) {
+      this.componentGapWidth[blockId] = value;
+      event.target.blur()
+      console.log(this.componentGapWidth)
     },
     numbersOnlyInput() {
       const keyCode = event.keyCode || event.which

@@ -4,10 +4,10 @@
       :style="{
           'background-color': imageBackgroundColor,
         }"
-      draggable="true"
-      @dragstart="blockImageDragStart"
-      @dragend="blockImageDragStop"
   >
+<!--    draggable="true"-->
+<!--    @dragstart="blockImageDragStart"-->
+<!--    @dragend="blockImageDragStop"-->
     <Toolbar
         :image-background-color="imageBackgroundColor"
         :image-opacity="imageOpacity"

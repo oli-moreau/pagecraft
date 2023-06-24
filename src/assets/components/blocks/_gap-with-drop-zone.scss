@@ -1,0 +1,76 @@
+.component-width-bar {
+  position: relative;
+  top: calc(-4vh);
+  height: 3vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-left: 2px dashed $color-grey-light;
+  border-right: 2px dashed $color-grey-light;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 50%;
+    left: 80%;
+    right: 0;
+    border-bottom: 2px dashed $color-grey-light;
+    z-index: 2;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 80%;
+    border-bottom: 2px dashed $color-grey-light;
+  }
+
+
+  input {
+    height: 100%;
+    aspect-ratio: 1/1;
+    text-align: center;
+    font-size: 2rem;
+    border: none;
+    color: $color-grey-light;
+
+    &:hover {
+      background-color: $color-white;
+      border-radius: $border-rnd-sm;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &::selection {
+      background-color: $color-grey;
+    }
+  }
+}
+
+.component-gap {
+  position: relative;
+  height: 100%;
+
+  .component-gap-width-bar {
+    @extend .component-width-bar;
+
+    &:before {
+      top: 50%;
+    }
+
+    &:after {
+      bottom: 50%;
+    }
+
+    input {
+      font-size: 1.5rem;
+    }
+  }
+}
