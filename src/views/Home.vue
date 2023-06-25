@@ -3,6 +3,7 @@
     <NavBar :show-editor="showEditor" @toggle-editor="toggleEditor"/>
     <DraggableBlocks v-if="showEditor"/>
     <section class="main-content">
+      <TransitionGroup name="slide">
       <template v-for="(row, rowIndex) in pageRows" :key="rowIndex">
         <div
             class="row"
@@ -17,7 +18,8 @@
                 @keydown.enter.prevent="updateRowHeight(rowIndex, $event.target.value)"
             >
           </div>
-          <template v-for="block in row" :key="block.id">
+          <TransitionGroup name="slide">
+            <template v-for="block in row" :key="block.id">
               <component
                   :is="blockMap[block.type].component"
                   :blockId="block.id"
@@ -43,7 +45,8 @@
                   >
                 </div>
               </div>
-          </template>
+            </template>
+          </TransitionGroup>
           <DropZone
               :style="{'height': `${rowHeights[rowIndex]}vh`}"
               v-if="showEditor && row.length !== 4"
@@ -62,6 +65,7 @@
           </div>
         </div>
       </template>
+      </TransitionGroup>
       <!--      v-bind="blockMap[block.type].props"-->
     </section>
     <DropZone
@@ -212,3 +216,20 @@ export default {
   },
 }
 </script>
+<style>
+.slide-move,
+.slide-enter-active,
+.slide-leave-active {
+  transition: all .3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.slide-leave-active {
+  //position: absolute;
+}
+</style>
