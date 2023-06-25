@@ -23,30 +23,29 @@
                   :blockId="block.id"
                   :showEditor="showEditor"
                   :size="block.size"
-                  @image-being-dragged-id="imageBeingDraggedIdHandler"
                   @remove-block="removeBlockHandler(rowIndex, block.id)"
               >
               </component>
-              <div class="component-gap"
-                   :class="{'gap-being-dragged-over': isGapBeingDraggedOver[block.id]}"
-                   :style="getComponentGapStyle(block.id)"
-                    @dragover.prevent="componentGapHover(block.id)"
-                    @dragleave="componentGapHoverLeave(block.id)"
-                    @drop="testFn">
-                <div class="component-gap-width-bar" v-if="showEditor">
+              <div
+                  class="block-gap"
+                  :class="{'gap-being-dragged-over': isGapBeingDraggedOver[block.id]}"
+                  :style="getBlockGapStyle(block.id)"
+                  @dragover.prevent="blockGapHover(block.id)"
+                  @dragleave="blockGapHoverLeave(block.id)"
+                  @drop="blockDroppedInGap"
+              >
+                <div class="block-gap-width-bar" v-if="showEditor">
                   <input
                       type="text"
-                      :value="componentGapWidth[block.id]"
+                      :value="blockGapWidth[block.id]"
                       @keydown="numbersOnlyInput"
-                      @keydown.enter.prevent="updateComponentGapWidth(block.id, $event.target.value)"
+                      @keydown.enter.prevent="updateBlockGapWidth(block.id, $event.target.value)"
                   >
                 </div>
               </div>
           </template>
           <DropZone
-              :style="{
-              'height': `${rowHeights[rowIndex]}vh`,
-            }"
+              :style="{'height': `${rowHeights[rowIndex]}vh`}"
               v-if="showEditor && row.length !== 4"
               :blockId="blockId"
               @droppedBlock="droppedInRow($event, rowIndex)"
@@ -96,7 +95,7 @@ export default {
       pageRows: [],
       rowHeights: [],
       rowGapHeights: [],
-      componentGapWidth: {},
+      blockGapWidth: {},
       isGapBeingDraggedOver: {},
       gapBeingDraggedOverId: null,
     }
@@ -112,7 +111,7 @@ export default {
       this.blockId += 1
       if (targetRow.length < 4) {
         targetRow.push(droppedBlock)
-        this.componentGapWidth[droppedBlock.id] = 5
+        this.blockGapWidth[droppedBlock.id] = 5
       } else {
         this.pageRows.push([droppedBlock])
       }
@@ -122,13 +121,13 @@ export default {
       this.pageRows.push([droppedBlock])
       this.rowHeights.push(50)
       this.rowGapHeights.push(5)
-      this.componentGapWidth[droppedBlock.id] = 5
+      this.blockGapWidth[droppedBlock.id] = 5
     },
     removeBlockHandler(row, blockId) {
       const index = this.pageRows[row].findIndex(block => block.id == blockId)
       if (index !== -1) {
         this.pageRows[row].splice(index, 1);
-        delete this.componentGapWidth[blockId]
+        delete this.blockGapWidth[blockId]
       }
       if (this.pageRows[row].length === 0) {
         this.pageRows.splice(row, 1);
@@ -144,8 +143,8 @@ export default {
       this.rowGapHeights[rowIndex] = value;
       event.target.blur()
     },
-    updateComponentGapWidth(blockId, value) {
-      this.componentGapWidth[blockId] = value;
+    updateBlockGapWidth(blockId, value) {
+      this.blockGapWidth[blockId] = value;
       event.target.blur()
     },
     numbersOnlyInput() {
@@ -157,19 +156,15 @@ export default {
         event.preventDefault();
       }
     },
-    componentGapHover(blockId) {
+    blockGapHover(blockId) {
       this.gapBeingDraggedOverId = blockId
       this.isGapBeingDraggedOver[blockId] = true
     },
-    componentGapHoverLeave(blockId) {
+    blockGapHoverLeave(blockId) {
       this.isGapBeingDraggedOver[blockId] = false
     },
-    imageBeingDraggedIdHandler(blockId) {
-      // console.log(this.pageRows)
-      // console.log(blockId)
-    },
-    testFn(ev) {
-      const movedBlockId = JSON.parse(ev.dataTransfer.getData('blockImageId'))
+    blockDroppedInGap(ev) {
+      const movedBlockId = JSON.parse(ev.dataTransfer.getData('blockBeingMovedId'))
 
       const currentPageRowsIndex = this.pageRows.findIndex(row => row.some(block => block.id === movedBlockId))
       const currentBlockIndex = this.pageRows[currentPageRowsIndex].findIndex(block => block.id === movedBlockId)
@@ -189,6 +184,7 @@ export default {
       }
 
       this.isGapBeingDraggedOver[movedBlockId] = false
+      this.isGapBeingDraggedOver[targetBlock.id] = false
     },
   },
   computed: {
@@ -206,10 +202,10 @@ export default {
         }
       };
     },
-    getComponentGapStyle() {
+    getBlockGapStyle() {
       return (blockId) => {
         return {
-          width: `${this.componentGapWidth[blockId]}vw`
+          width: `${this.blockGapWidth[blockId]}vw`
         }
       }
     },

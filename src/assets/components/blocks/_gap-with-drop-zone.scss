@@ -54,7 +54,7 @@
   }
 }
 
-.component-gap {
+.block-gap {
   position: relative;
   height: 100%;
 
@@ -68,7 +68,7 @@
     //background-color: red;
   }
 
-  .component-gap-width-bar {
+  .block-gap-width-bar {
     @extend .component-width-bar;
 
     &:before {

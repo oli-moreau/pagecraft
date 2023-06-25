@@ -99,10 +99,7 @@ export default {
     },
     blockImageDragStart(ev, blockImageId) {
       this.isBlockImageDragged = true
-      // console.log(ev)
-      ev.dataTransfer.setData('blockImageId', JSON.stringify(blockImageId));
-      // this.$emit('imageBeingDraggedId', this.blockId)
-      // console.log(event.dataTransfer(''))
+      ev.dataTransfer.setData('blockBeingMovedId', JSON.stringify(blockImageId));
     },
     blockImageDragStop(event) {
       this.isBlockImageDragged = false
