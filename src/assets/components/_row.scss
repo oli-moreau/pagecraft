@@ -90,3 +90,21 @@
     }
   }
 }
+
+//vue-js transitions
+.row-slide-move,
+.row-slide-enter-active,
+.row-slide-leave-active {
+  transition: all .3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.row-slide-enter-from,
+.row-slide-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.row-slide-leave-active {
+  position: absolute;
+  width: 100%;
+}

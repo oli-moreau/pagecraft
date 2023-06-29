@@ -1,0 +1,16 @@
+//vue-js transitions
+.block-slide-move,
+.block-slide-enter-active,
+.block-slide-leave-active {
+  transition: all .3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.block-slide-enter-from,
+.block-slide-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.block-slide-leave-active {
+  //position: absolute;
+}
