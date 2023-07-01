@@ -19,7 +19,7 @@
               >
             </div>
             <TransitionGroup name="block-slide">
-              <template v-for="block in row.data" :key="block.id">
+              <template v-for="(block, blockIndex) in row.data" :key="block.id">
                 <component
                     :is="blockMap[block.type].component"
                     :blockId="block.id"
@@ -31,17 +31,17 @@
                 <div
                     class="block-gap"
                     :class="{'gap-being-dragged-over': isGapBeingDraggedOver[block.id]}"
-                    :style="getBlockGapStyle(block.id)"
-                    @dragover.prevent="blockGapHover(block.id)"
+                    :style="getBlockGapStyle(block)"
+                    @dragover.prevent="blockGapHover(block.id, row.id)"
                     @dragleave="blockGapHoverLeave(block.id)"
-                    @drop="blockDroppedInGap(rowIndex, $event)"
+                    @drop="blockDroppedInGap(rowIndex, blockIndex, $event)"
                 >
                   <div class="block-gap-width-bar" v-if="showEditor">
                     <input
                         type="text"
-                        :value="blockGapWidth[block.id]"
+                        :value="block.rightGap"
                         @keydown="numbersOnlyInput"
-                        @keydown.enter.prevent="updateBlockGapWidth(block.id, $event.target.value)"
+                        @keydown.enter.prevent="updateBlockRightGapWidth(block, $event.target.value)"
                     >
                   </div>
                 </div>
@@ -50,6 +50,7 @@
             <DropZone
                 v-if="showEditor && row.length !== 4"
                 :blockId="blockId"
+                :block-right-gap="defaultBlockRightGap"
                 @droppedBlock="droppedInRow($event, row.id)"
             />
           </div>
@@ -70,7 +71,6 @@
     <DropZone
         style="height: 50vh"
         v-if="showEditor"
-        :blockId="blockId"
         @droppedBlock="droppedInNewRow"
     />
   </main>
@@ -94,12 +94,13 @@ export default {
   data() {
     return {
       showEditor: true,
-      rowId: 0,
+      rowId: 1,
       blockId: 1,
+      defaultBlockRightGap: 5,
       pageRows: [],
       rowHeights: [],
+      rowBeingDraggedOverId: null,
       rowGapHeights: [],
-      blockGapWidth: {},
       isGapBeingDraggedOver: {},
       gapBeingDraggedOverId: null,
     }
@@ -111,37 +112,40 @@ export default {
       this.showEditor = !this.showEditor
     },
     droppedInRow(droppedBlock, rowIndex) {
-      // const targetRow = this.pageRows[rowIndex];
+      droppedBlock.id = this.blockId;
+      droppedBlock.rightGap = this.defaultBlockRightGap;
+
       const targetRow = this.pageRows.find(row => row.id === rowIndex)
-      this.blockId++
+      //TODO Why keep only 4?
       if (targetRow.data.length < 4) {
         targetRow.data.push(droppedBlock)
-        this.blockGapWidth[droppedBlock.id] = 5
       } else {
-        console.log('keep after 4?')
-        // this.pageRows.push([droppedBlock])
+        this.pageRows.push([droppedBlock])
       }
+      this.blockId++
     },
     droppedInNewRow(droppedBlock) {
-      this.blockId++
-      this.rowId++
+      droppedBlock.id = this.blockId;
+      droppedBlock.rightGap = this.defaultBlockRightGap;
+
       const newRow = {
         id: this.rowId,
         height: 50,
         data: [droppedBlock]
       }
+
       this.pageRows.push(newRow)
-      // this.pageRows.push([droppedBlock])
       this.rowHeights.push(50)
       this.rowGapHeights.push(5)
-      this.blockGapWidth[droppedBlock.id] = 5
+
+      this.blockId++
+      this.rowId++
     },
     removeBlockHandler(rowId, blockId) {
       const targetRowIndex = this.pageRows.findIndex(row => row.id === rowId)
       const targetBlockIndex = this.pageRows[targetRowIndex].data.findIndex(block => block.id == blockId)
       if (targetBlockIndex !== -1) {
         this.pageRows[targetRowIndex].data.splice(targetBlockIndex, 1)
-        delete this.blockGapWidth[blockId]
       }
       if (this.pageRows[targetRowIndex].data.length === 0) {
         this.pageRows.splice(targetRowIndex, 1);
@@ -158,8 +162,8 @@ export default {
       this.rowGapHeights[rowIndex] = value;
       event.target.blur()
     },
-    updateBlockGapWidth(blockId, value) {
-      this.blockGapWidth[blockId] = value;
+    updateBlockRightGapWidth(block, value) {
+      block.rightGap = value
       event.target.blur()
     },
     numbersOnlyInput() {
@@ -171,43 +175,33 @@ export default {
         event.preventDefault();
       }
     },
-    blockGapHover(blockId) {
+    blockGapHover(blockId, rowId) {
       this.gapBeingDraggedOverId = blockId
       this.isGapBeingDraggedOver[blockId] = true
+      this.rowBeingDraggedOverId = rowId
     },
     blockGapHoverLeave(blockId) {
       this.isGapBeingDraggedOver[blockId] = false
     },
-    //TODO might re-think the whole block-gap concept
-    //TODO Should be its own thing instead of being bound to a block
-    blockDroppedInGap(rowIndex, event) {
-      console.log('todo')
-      // const movedBlockId = JSON.parse(event.dataTransfer.getData('blockBeingMovedId'))
-      // const currentBlockIndex = this.pageRows[rowIndex].data.findIndex(block => block.id === movedBlockId)
-      //
-      // const targetPageRowsIndex = this.pageRows.findIndex(row => row.some(block => block.id === this.gapBeingDraggedOverId))
-      // const targetBlockIndex = this.pageRows[targetPageRowsIndex].findIndex(block => block.id === this.gapBeingDraggedOverId)
-      // console.log(targetPageRowsIndex)
+    blockDroppedInGap(rowIndex, blockIndex, event) {
+      const draggedBlockId = JSON.parse(event.dataTransfer.getData('blockBeingDraggedId'))
 
+      const rowIndexOrigin = this.pageRows.findIndex(row => row.data.some(block => block.id === draggedBlockId))
+      const blockIndexOrigin = this.pageRows[rowIndexOrigin].data.findIndex(block => block.id === draggedBlockId)
 
-      // const currentBlockIndex = this.pageRows[currentPageRowsIndex].findIndex(block => block.id === movedBlockId)
-      //
-      // const targetPageRowsIndex = this.pageRows.findIndex(row => row.some(block => block.id === this.gapBeingDraggedOverId))
-      // const targetBlockIndex = this.pageRows[targetPageRowsIndex].findIndex(block => block.id === this.gapBeingDraggedOverId)
-      //
-      // const currentBlock = this.pageRows[currentPageRowsIndex][currentBlockIndex]
-      // const targetBlock = this.pageRows[targetPageRowsIndex][targetBlockIndex]
-      //
-      // if (currentPageRowsIndex === targetPageRowsIndex) {
-      //   this.pageRows[currentPageRowsIndex].splice(currentBlockIndex, 1, targetBlock);
-      //   this.pageRows[targetPageRowsIndex].splice(targetBlockIndex, 1, currentBlock);
-      // } else {
-      //   this.pageRows[currentPageRowsIndex].splice(currentBlockIndex, 1)
-      //   this.pageRows[targetPageRowsIndex].splice(targetBlockIndex+1, 0, currentBlock)
-      // }
-      //
-      // this.isGapBeingDraggedOver[movedBlockId] = false
-      // this.isGapBeingDraggedOver[targetBlock.id] = false
+      const draggedBlock = this.pageRows[rowIndexOrigin].data[blockIndexOrigin]
+      const targetBlock = this.pageRows[rowIndex].data[blockIndex]
+
+      if (rowIndexOrigin === rowIndex) {
+        this.pageRows[rowIndexOrigin].data.splice(blockIndexOrigin, 1, targetBlock);
+        this.pageRows[rowIndex].data.splice(blockIndex, 1, draggedBlock);
+      } else {
+        this.pageRows[rowIndexOrigin].data.splice(blockIndexOrigin, 1)
+        this.pageRows[rowIndex].data.splice(blockIndex+1, 0, draggedBlock)
+      }
+
+      this.isGapBeingDraggedOver[draggedBlockId] = false
+      this.isGapBeingDraggedOver[targetBlock.id] = false
     },
   },
   computed: {
@@ -226,9 +220,9 @@ export default {
       };
     },
     getBlockGapStyle() {
-      return (blockId) => {
+      return (block) => {
         return {
-          width: `${this.blockGapWidth[blockId]}vw`
+          width: `${block.rightGap}vw`
         }
       }
     },

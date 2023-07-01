@@ -99,7 +99,7 @@ export default {
     },
     blockImageDragStart(ev, blockImageId) {
       this.isBlockImageDragged = true
-      ev.dataTransfer.setData('blockBeingMovedId', JSON.stringify(blockImageId));
+      ev.dataTransfer.setData('blockBeingDraggedId', JSON.stringify(blockImageId))
     },
     blockImageDragStop(event) {
       this.isBlockImageDragged = false

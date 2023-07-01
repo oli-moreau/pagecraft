@@ -13,10 +13,14 @@
 <script>
 export default {
   props: {
-    blockId: {
-      type: Number,
-      required: true,
-    }
+    // blockId: {
+    //   type: Number,
+    //   required: true,
+    // },
+    // blockRightGap: {
+    //   type: Number,
+    //   required: true,
+    // },
   },
   data() {
     return {
@@ -27,7 +31,6 @@ export default {
     drop(ev) {
       this.isBlockHovering = false
       const droppedBlock = JSON.parse(ev.dataTransfer.getData('block'))
-      droppedBlock.id = this.blockId
       this.$emit('droppedBlock', droppedBlock)
     },
     blockHovering() {
