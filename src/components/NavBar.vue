@@ -1,13 +1,13 @@
 <template>
   <section class="topnav">
     <div class="logo-wrapper">
-      <img class="logo link-black" src="../../public/images/Icons/skin-care.png" alt="nav-logo" @click="toggleEditor">
+      <img class="logo link-black" src="../../Icons/hammer.png" alt="nav-logo" @click="toggleEditor">
     </div>
     <div class="nav-links">
-      <span class="text-lg link-black">Creams</span>
-      <span class="text-lg link-black">Face masks</span>
-      <span class="text-lg link-black">Serums</span>
-      <span class="text-lg link-black">All products</span>
+      <span class="text-lg link-black">Item 1</span>
+      <span class="text-lg link-black">Item 2</span>
+      <span class="text-lg link-black">Item 3</span>
+      <span class="text-lg link-black">Item 4</span>
     </div>
   </section>
 </template>
