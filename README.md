@@ -1,14 +1,8 @@
-# pagecraft
+# PageCraft
 
-This template should help get you started developing with Vue 3 in Vite.
+PageCraft is a Vue 3 project whose objective is to quickly build a simple landing page or wireframe. It is designed with a simple and intuitive drag and drop system.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+It is an ongoing and unfinished project that I develop as I am learning Vue.
 
 ## Project Setup
 
